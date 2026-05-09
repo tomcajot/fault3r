@@ -32,7 +32,7 @@ module ibex_core #(
     parameter bit                 SecureIbex       = 1'b0,
     parameter int unsigned        DmHaltAddr       = 32'h1A110800,
     parameter int unsigned        DmExceptionAddr  = 32'h1A110808,
-    parameter bit FAULT = 1'b1,
+    parameter bit FAULT = 1'b0,
     parameter bit FAULT_REPEAT = 1'b0,
     parameter byte FAULT_PC_COUNT = 8'b00001000,
     parameter int unsigned FAULT_INSTRUCTION = 32'h0ff00793,
@@ -296,41 +296,8 @@ module ibex_core #(
   logic        lsu_resp_valid;
   logic        lsu_resp_err;
 
-//  logic hit;
-//  assign hit = (instr_addr_o == FAULT_PC);
-
-//  logic stall;
-//  logic [7:0] stall_cnt = 8'd0;
-
-//  always_ff @(posedge clk_i or negedge rst_ni)
-//  begin
-//    if (!rst_ni)
-//    begin
-//      stall <= 1'b0;
-//    end
-//    else if (hit)
-//    begin
-//      stall <= 1'b1;
-//    end else if (stall_cnt >= 8'd100) begin
-//        stall <= 1'b0;
-//    end
-//  end
-
-//  always_ff @(posedge clk_i or negedge rst_ni)
-//  begin
-//    if (!rst_ni)
-//    begin
-//      stall_cnt <= 8'd0;
-//    end
-//    else if (stall)
-//    begin
-//      stall_cnt <= stall_cnt + 8'd1;
-//    end
-//  end
-  
   // Signals between instruction core interface and pipe (if and id stages)
   logic        instr_req_int;          // Id stage asserts a req to instruction core interface
-//  assign instr_req_int = stall && FAULT;
 
   // Writeback stage
   logic           en_wb;
