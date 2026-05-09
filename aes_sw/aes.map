@@ -1,0 +1,148 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+boot             0x0000000000000000 0x0000000000002000
+ram              0x0000000000002000 0x000000000003e000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+LOAD aes.o
+                0x0000000000000000                __DYNAMIC = 0x0
+                0x0000000000004000                STACK_LEN = 0x4000
+
+.vectors        0x0000000000000000       0x84
+ *(.vectors)
+ .vectors       0x0000000000000000       0x84 /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+
+.text           0x0000000000002000      0xd24
+                0x0000000000002000                . = ALIGN (0x4)
+                0x0000000000002000                _stext = .
+ *(.text)
+ .text          0x0000000000002000      0x118 /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+                0x0000000000002000                _start
+                0x000000000000203c                exception_handler
+ .text          0x0000000000002118      0xbfc aes.o
+                0x0000000000002118                log_state
+                0x00000000000021f0                memcpy
+                0x000000000000226c                memset
+                0x0000000000002418                aes_key_expansion
+                0x0000000000002acc                aes_encrypt
+                0x0000000000002c80                main
+ *(.text.*)
+                0x0000000000002d14                _etext = .
+                0x0000000000002d14                __CTOR_LIST__ = .
+                0x0000000000002d14        0x4 LONG 0x0 (((__CTOR_END__ - __CTOR_LIST__) / 0x4) - 0x2)
+ *(.ctors)
+                0x0000000000002d18        0x4 LONG 0x0
+                0x0000000000002d1c                __CTOR_END__ = .
+                0x0000000000002d1c                __DTOR_LIST__ = .
+                0x0000000000002d1c        0x4 LONG 0x0 (((__DTOR_END__ - __DTOR_LIST__) / 0x4) - 0x2)
+ *(.dtors)
+                0x0000000000002d20        0x4 LONG 0x0
+                0x0000000000002d24                __DTOR_END__ = .
+ *(.lit)
+ *(.shdata)
+                0x0000000000002d24                . = ALIGN (0x4)
+                0x0000000000002d24                _endtext = .
+
+.rodata         0x0000000000002d24      0x14c
+                0x0000000000002d24                . = ALIGN (0x4)
+ *(.rodata)
+ .rodata        0x0000000000002d24      0x14c aes.o
+ *(.rodata.*)
+
+.fault_data     0x0000000000002e70       0xc8
+ .fault_data    0x0000000000002e70       0xc8 aes.o
+                0x0000000000002e70                edit_area
+
+.rela.dyn       0x0000000000002f38        0x0
+ .rela.text     0x0000000000002f38        0x0 /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+
+.shbss          0x0000000000002f38        0x0
+                0x0000000000002f38                . = ALIGN (0x4)
+ *(.shbss)
+
+.data           0x0000000000002f38        0x0
+                0x0000000000002f38                . = ALIGN (0x4)
+                0x0000000000002f38                sdata = .
+                0x0000000000002f38                _sdata = .
+ *(.data)
+ .data          0x0000000000002f38        0x0 /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+ .data          0x0000000000002f38        0x0 aes.o
+ *(.data.*)
+                0x0000000000002f38                edata = .
+                0x0000000000002f38                _edata = .
+                0x0000000000000032                PATCHPAD_WORDS = 0x32
+                0x00000000000000c8                PATCHPAD_SIZE = (PATCHPAD_WORDS * 0x4)
+
+.patchpad       0x0000000000002f38       0xc8
+                0x0000000000002f38                __patchpad_start = .
+ FILL mask 0xffffffff
+                0x0000000000003000                . = (. + PATCHPAD_SIZE)
+ *fill*         0x0000000000002f38       0xc8 ffffffff
+                0x0000000000003000                __patchpad_end = .
+
+.bss            0x0000000000003000        0x0
+                0x0000000000003000                . = ALIGN (0x4)
+                0x0000000000003000                _bss_start = .
+ *(.bss)
+ .bss           0x0000000000003000        0x0 /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+ .bss           0x0000000000003000        0x0 aes.o
+ *(.bss.*)
+ *(.sbss)
+ *(.sbss.*)
+ *(COMMON)
+                0x0000000000003000                _bss_end = .
+
+.user_align     0x0000000000003000        0x0
+                0x0000000000003000                . = ALIGN (0x1000)
+ *fill*         0x0000000000003000        0x0 
+                0x0000000000003000                _user_start = .
+
+.stack          0x000000000003c000     0x4000
+                0x000000000003c000                . = ALIGN (0x10)
+                0x000000000003c000                _stack_start = .
+                0x0000000000040000                . = (. + STACK_LEN)
+ *fill*         0x000000000003c000     0x4000 
+                0x0000000000040000                . = ALIGN (0x10)
+                0x0000000000040000                stack = .
+                0x0000000000040000                _stack = .
+                0x0000000000040000                _stack_end = .
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+OUTPUT(aes.elf elf32-littleriscv)
+
+.Pulp_Chip.Info
+                0x0000000000000000       0x4e
+ .Pulp_Chip.Info
+                0x0000000000000000       0x4e /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+ .Pulp_Chip.Info
+                0x000000000000004e        0x0 aes.o
+
+.comment        0x0000000000000000       0x1a
+ .comment       0x0000000000000000       0x1a aes.o
+                                         0x1b (size before relaxing)
+
+Cross Reference Table
+
+Symbol                                            File
+_bss_end                                          /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+_bss_start                                        /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+_stack                                            /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+_start                                            /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+aes_encrypt                                       aes.o
+aes_key_expansion                                 aes.o
+edit_area                                         aes.o
+exception_handler                                 /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+log_state                                         aes.o
+main                                              aes.o
+                                                  /home/ctom/Documents/ibex-soc/aes_sw//crt0.o
+memcpy                                            aes.o
+memset                                            aes.o
