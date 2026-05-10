@@ -1,6 +1,57 @@
-.PRECIOUS: %.bin
+# # Generic Makefile for Ibex applications
+# # Specify program name with PROG, object files with OBJ
+
+# SW_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+# RISCV_CC   := ../riscv32/bin/riscv32-unknown-elf-gcc
+# RISCV_DUMP := ../riscv32/bin/riscv32-unknown-elf-objdump
+
+# LD_SCRIPT := $(SW_DIR)/link.ld
+
+# CFLAGS = -march=rv32im -mabi=ilp32 -static -mcmodel=medany \
+#          -fvisibility=hidden -nostdlib -nostartfiles -Wall \
+#          -I$(SW_DIR)/lib/
+
+# # add crt0 to object files
+# RISCV_OBJ := $(SW_DIR)/crt0.o $(OBJ)
+
+# all: $(PROG).vmem
+
+# dump: $(PROG).elf
+# 	$(RISCV_DUMP) -D $<
+
+# $(PROG).elf: $(RISCV_OBJ) $(LD_SCRIPT)
+# 	$(RISCV_CC) $(CFLAGS) -T $(LD_SCRIPT) $(RISCV_OBJ) -o $@
+
+# %.o: %.c
+# 	$(RISCV_CC) $(CFLAGS) -c -o $@ $<
+
+# %.o: %.S
+# 	$(RISCV_CC) $(CFLAGS) -c -o $@ $<
+
+# %.vmem: %.bin $(if $(INJECT),$(INJECT),)
+# 	python3 $(SW_DIR)bin2vmem.py $< $(INJECT) $(FAULT_ADDR) > $@
+
+# %.bin: %.elf
+# 	../riscv32/bin/riscv32-unknown-elf-objcopy -O binary $^ $@
+
+# clean:
+# 	rm -f *.o *.elf *.bin *.vmem
+
+
+
+# ---------------------------------------------------------------------
+#  Generic Makefile for Ibex applications
+#
+#  • Define   PROG = <name-without-extension>  on the command line
+#  • Define   OBJ  = <list of *.o or *.c>      on the command line
+#
+#     $ make PROG=aes OBJ="aes.o utils.o"
+# ---------------------------------------------------------------------
 
 SW_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+INJECT     ?=
+FAULT_ADDR ?= 0x0
 
 # ---------- RISC-V toolchain --------------------------------------------------
 RISCV_PREFIX ?= ../riscv32/bin/riscv32-unknown-elf-
@@ -54,8 +105,8 @@ $(PROG).map: $(PROG).elf
 # ELF ➜ BIN ➜ VMEM
 %.bin: %.elf
 	$(RISCV_OBJCOPY) -O binary $< $@
-%.vmem: %.bin
-	python3 bin2vmem.py $< > $@
+%.vmem: %.bin $(if $(INJECT),$(INJECT),)
+	python3 $(SW_DIR)bin2vmem.py $< $(INJECT) $(FAULT_ADDR) > $@
 
 # ---------------------------------------------------------------------
 # House-keeping

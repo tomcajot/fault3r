@@ -7,3 +7,5 @@ To generate a .vmem memory image for the core run the following command which wi
 `make PROG=sw OBJ="sw.c"`
 
 This only works when the riscv toolchain is in the parent directory.
+
+For the jal-based faults, refer to the jal_adder_sw folder.
