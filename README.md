@@ -15,8 +15,8 @@ To run your own software on the core and inject your own instructions follow the
 5. Launch Vivado and open the .xpr project found in /build/IbexSoC/
 6. Open the tesbench and set the following parameters:
    - bit FAULT: master enable. When deasserted, Fault3r is transparent and the core behaves exactly as without the extension.
-   - int unsigned FAULT_PC: the instruction address at which the fault is to be triggered.
-   - int unsigned FAULT_INSTRUCTION: the 32-bit instruction word that will replace the original at \texttt{FAULT_PC} when the trigger fires.
-   - byte FAULT_PC_COUNT: the number of times \texttt{FAULT_PC} must be visited before the fault becomes active.
-   - bit FAULT_REPEAT: if asserted, the fault fires on every visit to \texttt{FAULT_PC} from the \texttt{FAULT_PC_COUNT}-th onwards; if deasserted, it fires only on the \texttt{FAULT_PC_COUNT}-th visit and not afterwards.
+   - int unsigned FAULT_ADDR: the instruction address at which the fault is to be triggered.
+   - int unsigned FAULT_INSTR: the 32-bit instruction word that will replace the original at \texttt{FAULT_ADDR} when the trigger fires.
+   - byte FAULT_ADDR_COUNT: the number of times \texttt{FAULT_ADDR} must be visited before the fault becomes active.
+   - bit FAULT_REPEAT: if asserted, the fault fires on every visit to \texttt{FAULT_ADDR} from the \texttt{FAULT_ADDR_COUNT}-th onwards; if deasserted, it fires only on the \texttt{FAULT_ADDR_COUNT}-th visit and not afterwards.
 7. Run the simulation.

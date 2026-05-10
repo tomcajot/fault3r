@@ -7,9 +7,9 @@ module ibex_soc
         parameter int unsigned PLL_DIV    = 25,
         parameter bit FAULT = 1'b1, 
         parameter bit FAULT_REPEAT = 1'b0, 
-        parameter byte FAULT_PC_COUNT = 8'b00001000, 
-        parameter int unsigned FAULT_INSTRUCTION = 32'h0ff00793, 
-        parameter int unsigned FAULT_PC = 32'h00002728
+        parameter byte FAULT_ADDR_COUNT = 8'b00001000, 
+        parameter int unsigned FAULT_INSTR = 32'h0ff00793, 
+        parameter int unsigned FAULT_ADDR = 32'h00002728
     )
     (
         input  sys_clk_i,
@@ -91,9 +91,9 @@ module ibex_soc
         .DmExceptionAddr        ( 32'h00000000                      ),
         .FAULT(FAULT),
         .FAULT_REPEAT ( FAULT_REPEAT ),
-        .FAULT_PC_COUNT(FAULT_PC_COUNT),
-        .FAULT_INSTRUCTION (FAULT_INSTRUCTION),
-        .FAULT_PC (FAULT_PC)
+        .FAULT_ADDR_COUNT(FAULT_ADDR_COUNT),
+        .FAULT_INSTR (FAULT_INSTR),
+        .FAULT_ADDR (FAULT_ADDR)
     ) u_core (
         .clk_i                  ( clk                               ),
         .rst_ni                 ( rst_n                             ),

@@ -34,9 +34,9 @@ module ibex_core #(
     parameter int unsigned        DmExceptionAddr  = 32'h1A110808,
     parameter bit FAULT = 1'b0,
     parameter bit FAULT_REPEAT = 1'b0,
-    parameter byte FAULT_PC_COUNT = 8'b00001000,
-    parameter int unsigned FAULT_INSTRUCTION = 32'h0ff00793,
-    parameter int unsigned FAULT_PC = 32'h00002728
+    parameter byte FAULT_ADDR_COUNT = 8'b00001000,
+    parameter int unsigned FAULT_INSTR = 32'h0ff00793,
+    parameter int unsigned FAULT_ADDR = 32'h00002728
 ) (
     // Clock and Reset
     input  logic                  clk_i,
@@ -126,7 +126,7 @@ module ibex_core #(
      begin
        hit_cnt <= 8'd0;
      end
-     else if (instr_addr_o == FAULT_PC && instr_gnt_i)
+     else if (instr_addr_o == FAULT_ADDR && instr_gnt_i)
      begin
        hit_cnt <= hit_cnt + 8'd1;
      end
@@ -140,7 +140,7 @@ module ibex_core #(
      end
      else
      begin
-       hit <= (instr_addr_o == FAULT_PC && (FAULT_REPEAT ? (hit_cnt >= FAULT_PC_COUNT) : hit_cnt == FAULT_PC_COUNT));
+       hit <= (instr_addr_o == FAULT_ADDR && (FAULT_REPEAT ? (hit_cnt >= FAULT_ADDR_COUNT) : hit_cnt == FAULT_ADDR_COUNT));
      end
    end
 
@@ -148,7 +148,7 @@ module ibex_core #(
    begin
      if (hit && FAULT)
      begin
-       instr_rdata_i_q = FAULT_INSTRUCTION;
+       instr_rdata_i_q = FAULT_INSTR;
      end
      else
      begin

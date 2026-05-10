@@ -2,9 +2,9 @@ module ibex_soc_tb #(
     parameter RAM_FPATH = "",
     parameter bit FAULT = 1'b1, 
     parameter bit FAULT_REPEAT = 1'b0, 
-    parameter byte FAULT_PC_COUNT = 8'd8, 
-    parameter int unsigned FAULT_INSTRUCTION = 32'hfe0407a3,
-    parameter int unsigned FAULT_PC = 32'h000027dc
+    parameter byte FAULT_ADDR_COUNT = 8'd8, 
+    parameter int unsigned FAULT_INSTR = 32'hfe0407a3,
+    parameter int unsigned FAULT_ADDR = 32'h000027dc
   ); 
    
   logic clk, rst;
@@ -14,9 +14,9 @@ module ibex_soc_tb #(
     .RAM_FPATH  ( RAM_FPATH ),
     .FAULT(FAULT),
     .FAULT_REPEAT ( FAULT_REPEAT ),
-    .FAULT_PC_COUNT(FAULT_PC_COUNT),
-    .FAULT_INSTRUCTION (FAULT_INSTRUCTION),
-    .FAULT_PC (FAULT_PC)
+    .FAULT_ADDR_COUNT(FAULT_ADDR_COUNT),
+    .FAULT_INSTR (FAULT_INSTR),
+    .FAULT_ADDR (FAULT_ADDR)
     )i_ibex_soc (
      .sys_clk_i  ( clk       ),
      .sys_rst_ni ( ~rst      ),
