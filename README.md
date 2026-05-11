@@ -4,7 +4,7 @@ This projects is a configurable hardware fault-injection extension for the RISC-
 
 ## Installation and use
 
-The "project.zip" is a compressed file containing the full project, the XPR file can be found under its /build/IbexSoc/ and runs on Vivado 2024.2
+The "prj.zip" is a compressed file containing the full project, the XPR file can be found under its /build/IbexSoc/ and runs on Vivado 2024.2
 
 To run your own software on the core and inject your own instructions follow the following steps:
 
